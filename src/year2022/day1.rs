@@ -52,12 +52,6 @@ impl Solution<'_, Day1, Part2> for AdventOfCode2022<Day1> {
         sums.sort();
         sums.reverse();
 
-        let mut sum = 0;
-
-        for number in &sums[0..3] {
-            sum = sum + number;
-        }
-
-        sum
+        sums[..3].into_iter().sum()
     }
 }
