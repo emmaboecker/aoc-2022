@@ -17,6 +17,7 @@ fn main() {
 
     println!("2022:");
     run!(AdventOfCode2022::<Day1>, &get_input(2022, 1));
+    run!(AdventOfCode2022::<Day2>, &get_input(2022, 2));
 }
 
 fn get_input(year: u32, day: u32) -> String {
