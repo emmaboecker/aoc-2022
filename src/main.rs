@@ -1,4 +1,4 @@
-use advent_of_code_traits::days::{Day1, Day2, Day3, Day4, Day5, Day6};
+use advent_of_code_traits::days::{Day1, Day2, Day3, Day4, Day5, Day6, Day7};
 use advent_of_code_traits::{run, SolutionRunner};
 
 use crate::year2021::AdventOfCode2021;
@@ -22,6 +22,7 @@ fn main() {
     run!(AdventOfCode2022::<Day4>, &get_input(2022, 4));
     run!(AdventOfCode2022::<Day5>, &get_input(2022, 5));
     run!(AdventOfCode2022::<Day6>, &get_input(2022, 6));
+    run!(AdventOfCode2022::<Day7>, &get_input(2022, 7));
 }
 
 fn get_input(year: u32, day: u32) -> String {
