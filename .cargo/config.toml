@@ -1,0 +1,2 @@
+[alias]
+create-day = "run --quiet --bin create-day"

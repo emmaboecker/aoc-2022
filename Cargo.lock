@@ -3,14 +3,5 @@
 version = 3
 
 [[package]]
-name = "advent_of_code_traits"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fe36d4ed92c508917976c6fd99d04f03ea85ae8fddc90c2e862e9d4c6ef41fd3"
-
-[[package]]
-name = "aoc"
+name = "aoc-2022"
 version = "0.1.0"
-dependencies = [
- "advent_of_code_traits",
-]
