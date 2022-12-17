@@ -14,7 +14,7 @@ fn main() {
         .map(|split| split.lines().collect())
         .collect();
 
-    let mut input: Vec<Pair> = input
+    let input: Vec<Pair> = input
         .into_iter()
         .map(|split| {
             (
