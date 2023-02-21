@@ -43,8 +43,8 @@ fn main() {
     let mut covered_positions: Vec<Position> = covered_positions
         .into_iter()
         .filter(|position| {
-            !(&input)
-                .into_iter()
+            !input
+                .iter()
                 .any(|sensor| sensor.closest_beacon == *position)
         })
         .collect();
@@ -73,24 +73,24 @@ fn main() {
                 y,
             };
 
-            if !(&input).into_iter().any(|sensor| {
+            if !input.iter().any(|sensor| {
                 min_position.is_in_reach(&sensor.position, &sensor.distance)
                     || sensor.closest_beacon == min_position
             }) {
                 if min_position.bigger_than(4000000) {
                     continue;
                 }
-                not_covered_position = Some(min_position.clone());
+                not_covered_position = Some(min_position);
                 break 'outer;
             }
-            if !(&input).into_iter().any(|sensor| {
+            if !input.iter().any(|sensor| {
                 max_position.is_in_reach(&sensor.position, &sensor.distance)
                     || sensor.closest_beacon == max_position
             }) {
                 if max_position.bigger_than(4000000) {
                     continue;
                 }
-                not_covered_position = Some(max_position.clone());
+                not_covered_position = Some(max_position);
                 break 'outer;
             }
         }

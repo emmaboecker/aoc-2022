@@ -17,7 +17,7 @@ fn main() {
 
     for line in lines {
         if line.starts_with("$ cd") {
-            let dir = line.split(" ").nth(2).unwrap();
+            let dir = line.split(' ').nth(2).unwrap();
             if dir == ".." {
                 current_dir.pop();
             } else if dir == "/" {
@@ -26,9 +26,9 @@ fn main() {
                 current_dir.push(dir.to_string());
             }
         }
-        if !line.starts_with("$") {
-            let mut split = line.split(" ");
-            let type_or_size = split.nth(0).unwrap();
+        if !line.starts_with('$') {
+            let mut split = line.split(' ');
+            let type_or_size = split.next().unwrap();
 
             if let Ok(size) = type_or_size.parse::<u64>() {
                 if map.contains_key(&current_dir) {
@@ -38,7 +38,7 @@ fn main() {
                     map.insert(current_dir.clone(), vec![DirContent::File(size)]);
                 }
             } else if type_or_size == "dir" {
-                let name = split.nth(0).unwrap();
+                let name = split.next().unwrap();
                 if map.contains_key(&current_dir) {
                     let vec = map.get_mut(&current_dir).unwrap();
                     vec.push(DirContent::Directory(name.to_string()));
@@ -100,7 +100,7 @@ fn directory_size(
         } else if let DirContent::Directory(name) = content {
             let mut new_dir = dir.0.clone();
             new_dir.push(name.to_owned());
-            let subdir = input.get_key_value(&new_dir).unwrap().clone();
+            let subdir = input.get_key_value(&new_dir).unwrap();
             subdir_size += directory_size(input, &(subdir.0.to_owned(), subdir.1.to_vec()));
         }
         sum += subdir_size;

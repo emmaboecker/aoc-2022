@@ -39,6 +39,23 @@ fn main() {
 
         grid.sort();
 
+        if i >= (moves.directions.len() as i64) * 2 {
+            let middle = grid.len() / 2;
+            let split = grid.split_at(middle);
+            let mut first = split.0.to_owned();
+            first.sort();
+            let first_max = first.last().unwrap();
+            let mut second = split.1.to_owned();
+            second.sort();
+            let second_max = second.last().unwrap();
+            if first_max.y * 2 == second_max.y {
+                println!("first: {} second: {}", first_max.y, second_max.y);
+                println!("Part 1: {}", first_max.y * (2022 / (i / 2)));
+                println!("Part 2: {}", first_max.y * (1000000000000 / (i / 2)));
+                break;
+            }
+        }
+
         if i == 2022 {
             println!("Part 1: {}", grid.last().unwrap().y + 1);
         } else if i == 1000000000000 {
@@ -147,7 +164,7 @@ impl Rock {
     fn gas_push(
         &self,
         position: Position,
-        used_positions: &Vec<Position>,
+        used_positions: &[Position],
         direction: &Direction,
     ) -> Position {
         let new = match direction {
@@ -168,13 +185,13 @@ impl Rock {
 }
 
 trait MoveDown {
-    fn can_move_down(&self, positions: &Vec<Position>) -> bool;
+    fn can_move_down(&self, positions: &[Position]) -> bool;
 }
 
 impl MoveDown for Grid {
-    fn can_move_down(&self, positions: &Grid) -> bool {
+    fn can_move_down(&self, positions: &[Position]) -> bool {
         !positions
-            .into_iter()
+            .iter()
             .any(|position| self.contains(&(position.x, position.y - 1).into()) || position.y == 0)
     }
 }

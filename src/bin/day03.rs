@@ -14,7 +14,6 @@ fn main() {
 
     let sum: u64 = input
         .into_iter()
-        .map(|string| string)
         .collect::<Vec<_>>()
         .chunks(3)
         .map(|chunk| common_char_priority(chunk).unwrap())

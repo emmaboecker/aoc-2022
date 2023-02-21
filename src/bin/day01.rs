@@ -3,25 +3,21 @@ fn main() {
     let input = &input.lines().collect::<Vec<&str>>();
     let input = split_delimited(input, &"");
 
-    let input: Vec<Vec<u64>> = input
+    let mut sums: Vec<u64> = input
         .into_iter()
         .map(|str| {
-            str.into_iter()
+            str.iter()
                 .map(|str| str.parse().expect("Not A Number"))
                 .collect()
         })
-        .collect();
-
-    let mut sums: Vec<u64> = input
-        .into_iter()
-        .map(|numbers| numbers.into_iter().sum())
+        .map(|numbers: Vec<u64>| numbers.into_iter().sum())
         .collect();
 
     sums.sort_by(|a, b| b.cmp(a));
 
     println!("part 1: {:?}", sums.first().expect("No number").to_owned());
 
-    println!("part 2: {:?}", sums[..3].into_iter().sum::<u64>());
+    println!("part 2: {:?}", sums[..3].iter().sum::<u64>());
 }
 
 pub fn split_delimited<'a, T>(input: &'a [T], delim: &T) -> Vec<&'a [T]>

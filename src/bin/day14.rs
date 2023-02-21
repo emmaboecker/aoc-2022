@@ -15,7 +15,7 @@ fn main() {
             .split(" -> ")
             .into_iter()
             .map(|s| {
-                let mut split = s.split(",");
+                let mut split = s.split(',');
                 (
                     split.next().unwrap().parse().unwrap(),
                     split.next().unwrap().parse().unwrap(),
@@ -66,7 +66,7 @@ fn main() {
         part.iter().flatten().filter(|&&u| u == Unit::Sand).count()
     );
 
-    part = Box::new(cave_grid.clone());
+    part = Box::new(cave_grid);
 
     part.insert_floor();
 
@@ -94,21 +94,21 @@ fn main() {
 
 trait FindNext {
     type Type;
-    fn find_next(&self, grid: &Box<[[Unit; 1000]; 300]>) -> Option<Self::Type>;
+    fn find_next(&self, grid: &[[Unit; 1000]; 300]) -> Option<Self::Type>;
 }
 
 impl FindNext for (usize, usize) {
     type Type = (usize, usize);
 
-    fn find_next(&self, grid: &Box<[[Unit; 1000]; 300]>) -> Option<Self::Type> {
+    fn find_next(&self, grid: &[[Unit; 1000]; 300]) -> Option<Self::Type> {
         if grid[self.0 + 1][self.1] == Unit::Air {
-            return Some((self.0 + 1, self.1));
+            Some((self.0 + 1, self.1))
         } else if grid[self.0 + 1][self.1 - 1] == Unit::Air {
-            return Some((self.0 + 1, self.1 - 1));
+            Some((self.0 + 1, self.1 - 1))
         } else if grid[self.0 + 1][self.1 + 1] == Unit::Air {
-            return Some((self.0 + 1, self.1 + 1));
+            Some((self.0 + 1, self.1 + 1))
         } else {
-            return None;
+            None
         }
     }
 }
@@ -131,7 +131,7 @@ impl InsertFloor for Box<Box<[[Unit; 1000]; 300]>> {
                 }
             }
         }
-        floor = floor + 2;
+        floor += 2;
 
         for i in 0..1000 {
             self[floor][i] = Unit::Rock;

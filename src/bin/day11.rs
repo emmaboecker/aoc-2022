@@ -19,15 +19,15 @@ fn main() {
                 .collect();
 
             let mut operation = monkey
-                .nth(0)
+                .next()
                 .unwrap()
                 .strip_prefix("  Operation: new = ")
                 .unwrap()
-                .split(" ");
-            let operation = Operation::parse(operation.nth(1).unwrap(), operation.nth(0).unwrap());
+                .split(' ');
+            let operation = Operation::parse(operation.nth(1).unwrap(), operation.next().unwrap());
 
             let test_condition: u64 = monkey
-                .nth(0)
+                .next()
                 .unwrap()
                 .strip_prefix("  Test: divisible by ")
                 .unwrap()
@@ -35,7 +35,7 @@ fn main() {
                 .unwrap();
 
             let test_if_true: u64 = monkey
-                .nth(0)
+                .next()
                 .unwrap()
                 .strip_prefix("    If true: throw to monkey ")
                 .unwrap()
@@ -43,7 +43,7 @@ fn main() {
                 .unwrap();
 
             let test_if_false: u64 = monkey
-                .nth(0)
+                .next()
                 .unwrap()
                 .strip_prefix("    If false: throw to monkey ")
                 .unwrap()
@@ -57,7 +57,7 @@ fn main() {
             };
 
             Monkey {
-                starting_items: starting_items.clone(),
+                starting_items,
                 operation,
                 test,
                 inspects: 0,
@@ -83,10 +83,8 @@ struct Monkey {
 }
 
 fn play_rounds(monkeys: &mut Vec<Monkey>, rounds: usize) {
-    let magic_number_that_is_so_fucking_stupid = monkeys
-        .into_iter()
-        .map(|monkey| monkey.test.test)
-        .fold(1, |acc, x| acc * x);
+    let magic_number_that_is_so_fucking_stupid: u64 =
+        monkeys.iter_mut().map(|monkey| monkey.test.test).product();
     for _ in 0..rounds {
         for monkey_index in 0..monkeys.len() {
             let monkey = monkeys[monkey_index].clone();
@@ -122,8 +120,8 @@ fn play_rounds(monkeys: &mut Vec<Monkey>, rounds: usize) {
                 let new_item = new_item;
 
                 let index = match new_item % monkey.test.test == 0 {
-                    true => (monkey.test.if_true).clone() as usize,
-                    false => (monkey.test.if_false).clone() as usize,
+                    true => (monkey.test.if_true) as usize,
+                    false => (monkey.test.if_false) as usize,
                 };
 
                 monkeys[monkey_index].starting_items = vec![];

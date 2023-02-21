@@ -5,7 +5,7 @@ fn main() {
 
     for instruction in input {
         if instruction.starts_with("addx") {
-            let value = instruction.split(" ").nth(1).unwrap().parse().unwrap();
+            let value = instruction.split(' ').nth(1).unwrap().parse().unwrap();
             cycles.push(Cycle {
                 instruction: Some(value),
             });
@@ -39,9 +39,9 @@ fn main() {
 
     for cycle in &cycles {
         if ((x - 1)..=(x + 1)).contains(&(&cycle_count % 40)) {
-            crt.push_str("#");
+            crt.push('#');
         } else {
-            crt.push_str(".");
+            crt.push('.');
         }
 
         cycle_count += 1;

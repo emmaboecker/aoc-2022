@@ -65,7 +65,7 @@ fn is_visible(tree: u32, left: Vec<u32>, right: Vec<u32>, top: Vec<u32>, bottom:
     {
         return true;
     }
-    return false;
+    false
 }
 
 fn viewing_distance(tree: u32, direction: Vec<u32>) -> u32 {
@@ -82,7 +82,7 @@ fn viewing_distance(tree: u32, direction: Vec<u32>) -> u32 {
         }
     }
 
-    return distance;
+    distance
 }
 
 #[derive(Debug)]
@@ -97,13 +97,13 @@ fn get_sides(input: Vec<Vec<u32>>, row: usize, column: usize) -> Directions {
     let enumerated_row: Vec<(usize, u32)> = input
         .get(row)
         .unwrap()
-        .to_owned()
-        .into_iter()
+        .iter()
+        .copied()
         .enumerate()
         .collect();
     let enumerated_column: Vec<(usize, u32)> = input
         .into_iter()
-        .map(|x| x.get(column).unwrap().clone())
+        .map(|x| *x.get(column).unwrap())
         .enumerate()
         .collect();
 
@@ -130,7 +130,6 @@ fn get_sides(input: Vec<Vec<u32>>, row: usize, column: usize) -> Directions {
         .collect();
 
     let bottom = enumerated_column
-        .clone()
         .into_iter()
         .filter(|(i, _)| i > &row)
         .map(|(_, x)| x)

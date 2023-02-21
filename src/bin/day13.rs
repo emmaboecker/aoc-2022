@@ -9,14 +9,13 @@ enum Packet {
 type Pair = (Packet, Packet);
 
 fn main() {
-    let input: Vec<Vec<&str>> = include_str!("../../input/day13.txt")
+    let input = include_str!("../../input/day13.txt")
         .split("\n\n")
-        .map(|split| split.lines().collect())
-        .collect();
+        .map(|split| split.lines().collect());
 
     let input: Vec<Pair> = input
         .into_iter()
-        .map(|split| {
+        .map(|split: Vec<&str>| {
             (
                 split.first().unwrap().parse().unwrap(),
                 split.last().unwrap().parse().unwrap(),
@@ -26,7 +25,7 @@ fn main() {
 
     let mut sum = 0;
 
-    for (index, (left, right)) in (&input).into_iter().enumerate() {
+    for (index, (left, right)) in input.iter().enumerate() {
         if left < right {
             sum += index + 1;
         }
@@ -73,41 +72,35 @@ impl PartialOrd for Packet {
             (Packet::Number(left), Packet::Number(right)) => left.partial_cmp(right),
             (Packet::List(left), Packet::List(right)) => {
                 for packets in left.iter().zip(right.iter()) {
-                    if packets.0 < packets.1 {
-                        return Some(std::cmp::Ordering::Less);
-                    } else if packets.0 > packets.1 {
-                        return Some(std::cmp::Ordering::Greater);
-                    }
+                    match packets.0.cmp(packets.1) {
+                        std::cmp::Ordering::Less => Some(std::cmp::Ordering::Less),
+                        std::cmp::Ordering::Greater => Some(std::cmp::Ordering::Greater),
+                        std::cmp::Ordering::Equal => None,
+                    };
                 }
-                if left.len() < right.len() {
-                    return Some(std::cmp::Ordering::Less);
-                } else if left.len() > right.len() {
-                    return Some(std::cmp::Ordering::Greater);
+                match left.len().cmp(&right.len()) {
+                    std::cmp::Ordering::Less => Some(std::cmp::Ordering::Less),
+                    std::cmp::Ordering::Greater => Some(std::cmp::Ordering::Greater),
+                    std::cmp::Ordering::Equal => None,
                 }
-
-                return None; // This should not happen
             }
             (Packet::Number(left), Packet::List(right)) => {
                 let left = Packet::List(vec![Packet::Number(*left)]);
                 let right = Packet::List(right.clone());
-                if left < right {
-                    return Some(std::cmp::Ordering::Less);
-                } else if left > right {
-                    return Some(std::cmp::Ordering::Greater);
+                match left.cmp(&right) {
+                    std::cmp::Ordering::Less => Some(std::cmp::Ordering::Less),
+                    std::cmp::Ordering::Greater => Some(std::cmp::Ordering::Greater),
+                    std::cmp::Ordering::Equal => None,
                 }
-
-                return None; // This should not happen
             }
             (Packet::List(left), Packet::Number(right)) => {
                 let left = Packet::List(left.clone());
                 let right = Packet::List(vec![Packet::Number(*right)]);
-                if left < right {
-                    return Some(std::cmp::Ordering::Less);
-                } else if left > right {
-                    return Some(std::cmp::Ordering::Greater);
+                match left.cmp(&right) {
+                    std::cmp::Ordering::Less => Some(std::cmp::Ordering::Less),
+                    std::cmp::Ordering::Greater => Some(std::cmp::Ordering::Greater),
+                    std::cmp::Ordering::Equal => None,
                 }
-
-                return None; // This should not happen
             }
         }
     }
@@ -129,7 +122,7 @@ impl From<&mut Peekable<&mut Chars<'_>>> for Packet {
         if a == '[' {
             if chars.peek() == Some(&']') {
                 chars.next();
-                return Packet::List(vec![]);
+                Packet::List(vec![])
             } else {
                 let mut results: Vec<Packet> = Vec::new();
 
@@ -142,16 +135,14 @@ impl From<&mut Peekable<&mut Chars<'_>>> for Packet {
 
                 chars.next();
 
-                return Packet::List(results);
+                Packet::List(results)
             }
+        } else if chars.peek() == Some(&',') || chars.peek() == Some(&']') {
+            Packet::Number(a.to_string().parse().unwrap())
         } else {
-            if chars.peek() == Some(&',') || chars.peek() == Some(&']') {
-                return Packet::Number(a.to_string().parse().unwrap());
-            } else {
-                let second_char = chars.next().unwrap();
-                let number = format!("{}{}", a, second_char).parse().unwrap();
-                return Packet::Number(number);
-            }
+            let second_char = chars.next().unwrap();
+            let number = format!("{}{}", a, second_char).parse().unwrap();
+            Packet::Number(number)
         }
     }
 }

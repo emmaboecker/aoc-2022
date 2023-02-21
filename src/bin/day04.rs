@@ -3,13 +3,13 @@ use std::ops::RangeInclusive;
 fn main() {
     let input = include_str!("../../input/day4.txt");
 
-    let ranges = input
+    let input: Vec<(RangeInclusive<u32>, RangeInclusive<u32>)> = input
         .lines()
         .map(|line| {
             line.to_string()
-                .split(",")
+                .split(',')
                 .map(|x| {
-                    x.split("-")
+                    x.split('-')
                         .map(|x| x.parse::<u32>().unwrap())
                         .collect::<Vec<u32>>()
                 })
@@ -18,10 +18,6 @@ fn main() {
                 })
                 .collect::<Vec<RangeInclusive<u32>>>()
         })
-        .collect::<Vec<Vec<RangeInclusive<u32>>>>();
-
-    let input: Vec<(RangeInclusive<u32>, RangeInclusive<u32>)> = ranges
-        .into_iter()
         .map(|ranges| {
             (
                 ranges.first().unwrap().to_owned(),

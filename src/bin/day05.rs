@@ -11,7 +11,7 @@ impl FromStr for Instruction {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let split: Vec<&str> = s.split(" ").collect();
+        let split: Vec<&str> = s.split(' ').collect();
         let quantity = split.get(1).unwrap().parse().unwrap();
         let origin = split.get(3).unwrap().parse().unwrap();
         let desination = split.last().unwrap().parse().unwrap();
@@ -30,12 +30,6 @@ fn main() {
     let split: Vec<&str> = input.split("\n\n").collect();
 
     let crates = *split.first().unwrap();
-    let instructions: Vec<String> = split
-        .last()
-        .unwrap()
-        .lines()
-        .map(|line| line.to_string())
-        .collect();
 
     let mut crate_lines: HashMap<u32, Vec<char>> = HashMap::new();
 
@@ -55,15 +49,18 @@ fn main() {
 
     let input: (HashMap<u32, Vec<char>>, Vec<Instruction>) = (
         crate_lines,
-        instructions
-            .into_iter()
+        split
+            .last()
+            .unwrap()
+            .lines()
+            .map(|line| line.to_string())
             .map(|instruction_str| instruction_str.parse().unwrap())
             .collect(),
     );
 
     let instructions = input.1.clone();
 
-    let mut crates = input.0.clone();
+    let mut crates = input.0;
 
     for instruction in instructions {
         let mut crate_chars = crates.get(&instruction.origin).unwrap().clone();

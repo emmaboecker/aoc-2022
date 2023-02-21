@@ -3,7 +3,7 @@ fn main() {
     let input: Vec<(u32, u32)> = input
         .lines()
         .map(|line| {
-            let split: Vec<&str> = line.split(" ").collect();
+            let split: Vec<&str> = line.split(' ').collect();
 
             let first = match *split.first().unwrap() {
                 "A" => 1,
@@ -19,7 +19,7 @@ fn main() {
                 _ => panic!("Invalid input 2"),
             };
 
-            return (first, second);
+            (first, second)
         })
         .into_iter()
         .collect();
@@ -39,7 +39,7 @@ fn main() {
 
     let mut score = 0;
 
-    for game in input.clone() {
+    for game in input {
         let chosen_move = match game.1 {
             1 => (game.0 + 1) % 3,
             2 => game.0 - 1,

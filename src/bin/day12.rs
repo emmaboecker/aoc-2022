@@ -84,7 +84,7 @@ fn a_star(field: &Field, start: Position, goal: Position) -> Option<Int> {
             break; // found
         }
 
-        for next in neighbors(&field, current) {
+        for next in neighbors(field, current) {
             let new_cost = cost_so_far[&current] + 1;
             if !cost_so_far.contains_key(&next) || new_cost < cost_so_far[&next] {
                 cost_so_far.insert(next, new_cost);
@@ -104,7 +104,7 @@ fn a_star(field: &Field, start: Position, goal: Position) -> Option<Int> {
         len += 1;
         current = chain[&current];
     }
-    return Some(len);
+    Some(len)
 }
 
 fn neighbors(grid: &Field, from: Position) -> Vec<Position> {
@@ -122,5 +122,5 @@ fn neighbors(grid: &Field, from: Position) -> Vec<Position> {
             results.push(next);
         }
     }
-    return results;
+    results
 }
